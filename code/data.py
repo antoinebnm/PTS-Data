@@ -1,3 +1,4 @@
+# Imports
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -5,29 +6,39 @@ import pandas as pd
 import seaborn as sns
 from scipy import stats
 
+interventions = [f for f in os.listdir("datasets" + os.sep + "Interventions")]
 
-def extract_data(year="2008"):
-    year = int(year)
-    sets = [f for f in os.listdir("datasets")]
-    data = {}
-    
-    for set in sets:
-        data[int(set.removeprefix("interventions").removesuffix(".csv"))] = pd.read_csv("datasets" + os.sep + set, sep=";", index_col=0, encoding='latin-1')
+# Functions
+def load_dataset(name=str, path=str) -> pd.DataFrame:
+    # load csv dataset from local folders (indicate path and file name)
+    data = pd.read_csv("datasets" + os.sep + path + os.sep + name, sep=";", encoding='latin-1')
 
-    return data[year].head()
+    return data
 
-def create_dataset(category="Dataset Column", years=["a","b","..."]):
-    new_dataset = {}
-    for year in years:
-        data = extract_data(year)
+def create_dataset(category="Dataset Column (Category)", arg="Dataset Row (Value)", datasets=["interventions2008"], path="Interventions") -> None:
+    if not os.path.exists('datasets' + os.sep + category):
+        os.makedirs('datasets' + os.sep + category)
 
-    new_my_dict = [
-    {'a': 15, 'n': 81, 'p': 177}
-    ]
-    df = pd.DataFrame.from_dict(new_my_dict) 
-    df.to_csv (r'test8.csv', index=False, header=True)
+    new_dataset = []
+    for name in datasets:
+        row = []
+        data = load_dataset(name, path)
+
+        if new_dataset == []:
+            for col in data.columns:
+                row.append(col)
+            new_dataset.append(row)
+
+        for i,x in enumerate(data[category]):
+            if x == arg:
+                row = []
+                for y in data.iloc[i]:
+                    row.append(y)
+                new_dataset.append(row)
+
+    df = pd.DataFrame.from_dict(new_dataset)
+    df.to_csv('datasets' + os.sep + f'{category.capitalize()}' + os.sep + rf'{arg.lower()}.csv', index=False, header=False, sep=';')
 
 
 if __name__ == "__main__":
-    dataset = extract_data(input())
-
+    create_dataset(category="Département", arg="Paris", datasets=interventions, path="Interventions")
