@@ -1,5 +1,0 @@
-datasets: dictionnaire de tous les datasets
-colonnesDatasets: dictionnaire de toutes les colonnes par année
-colonnesSupplémentaire: dictionnaire de toutes les colonnes qui ne sont pas présentes dans au moins un fichier
-uniformedDatasets: dictionnaires de tous les datasets n'ayant aucune colonne qu'un autre dataset aurait
-resultat_fusion: fichier excel de tous les uniformedDataset. Pas forcément utile, mais on peut peut-être en tirer quelque chose
