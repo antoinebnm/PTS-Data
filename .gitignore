@@ -1,8 +1,8 @@
+# Python cache
 __pycache__/
 
 # MacOS
 .DS_Store
 
-datasets/*
-
+# Virtual Environment
 .venv
